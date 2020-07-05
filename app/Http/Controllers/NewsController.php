@@ -6,17 +6,6 @@ use Illuminate\Http\Request;
 
 class NewsController extends Controller
 {
-    public function getNewsCategories()
-    {
-        $result = [];
-        $categories = $this->NewsCategories();
-        foreach ($categories as $category) {
-            $result[] = '<h3><a href=' . route('categories.getNewsByCategoryId', $category['category_id']) . '>' . $category['category_name'] . '</a></h3>';
-        }
-
-        return implode('<br>', $result);
-    }
-
     public function getNewsByCategoryId(int $id)
     {
         $news = $this->NewsByCategoryId($id);

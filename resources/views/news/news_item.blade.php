@@ -1,7 +1,7 @@
 @extends('layouts.main')
-@extends('menu')
-@extends('footer')
-@extends('header')
+@extends('layouts.menu')
+@extends('layouts.footer')
+@extends('layouts.header')
 
 @section('title')
 {{ $news['title'] }}

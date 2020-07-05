@@ -13,19 +13,22 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::get('/', 'MainController@WelcomePage');
 Route::get('/', 'MainController@WelcomePage');
 
 Route::get('/about', function () {
     return 'Important information about our project';
 });
+
+Route::match(['get', 'post'], '/feedback', 'FeedBackController@addFeedback')->name('addFeedback');
+Route::match(['get', 'post'], '/request', 'RequestController@addRequest')->name('addRequest');
+
 Route::group(
     [
         'prefix' => 'categories',
         'as' => 'categories.'
     ],
     function () {
-        Route::get('/', 'NewsController@getNewsCategories')->name('getNewsCategories');
+        Route::get('/', 'CategoriesController@getNewsCategories')->name('getNewsCategories');
         Route::get('/{id}', 'NewsController@getNewsByCategoryId')->name('getNewsByCategoryId');
     }
 );
