@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class NewsController extends Controller
 {
@@ -19,16 +20,14 @@ class NewsController extends Controller
 
     public function getNewsById(int $id)
     {
-        $result = '';
-        $news = $this->getAllNews();
-
-        if (!array_key_exists($id, $news)) {
+        $news = DB::table('news')->find($id);
+        
+        if (!$news) {
             return 'Указан некорректный id новости.';
         }
         $categories = $this->NewsCategories();
-        $news = $news[$id];
+
         return view('news.news_item', ['news'=>$news, 'categories'=>$categories]);
-        return $result;
     }
 
     public function openAddingNewsPage()

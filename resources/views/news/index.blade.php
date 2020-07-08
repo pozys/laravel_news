@@ -5,13 +5,14 @@
 
 @section('content')
 <div class="row mb-2">
-    @foreach ($news as $key => $item)
+    @foreach ($news as $item)
     <div class="col-md-6">
         <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
             <div class="col p-4 d-flex flex-column position-static">
-                <h3 class="mb-0">{{ $item['title'] }}</h3>
-                <p class="mb-auto">{{substr($item['body'], 0, 200)}}...</p>
-                <a href=" {{ route('news.getNewsById', $key) }} " class="stretched-link">Читать дальше..</a>
+                <h3 class="mb-0">{{ $item->title }}</h3>
+                <div class="mb-1 text-muted">{{ date('j M \'y', strtotime($item->created_at)) }}</div>
+                <p class="mb-auto">{{ $item->brief }}...</p>
+                <a href=" {{ route('news.getNewsById', $item->id) }} " class="stretched-link">Читать дальше..</a>
             </div>
             <div class="col-auto d-none d-lg-block">
                 <svg class="bd-placeholder-img" width="200" height="250" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail">
@@ -21,10 +22,6 @@
             </div>
         </div>
     </div>
-
-    @if ($loop->iteration === 10)
-    @break
-    @endif
     @endforeach
 </div>
 @endsection
