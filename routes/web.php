@@ -13,11 +13,33 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', 'MainController@WelcomePage');
+Route::get('/', 'MainController@WelcomePage')->name('index');
 
 Route::get('/about', function () {
     return 'Important information about our project';
 });
+
+Route::group(
+    [
+        'prefix' => 'admin',
+        'as' => 'admin.'
+    ],
+    function () {
+        Route::get('/index', 'AdminController@index')->name('index');
+        Route::match(['get', 'post'], '/addCategory', 'AdminController@addCategory')->name('addCategory');
+        Route::match(['get', 'post'], '/addNews', 'AdminController@addNews')->name('addNews');
+        Route::match(['get', 'post'], '/updateNews', 'AdminController@updateNews')->name('updateNews');
+        Route::match(['get', 'post'], '/updateNews/{news}', 'AdminController@updateNewsById')->name('updateNewsById');
+        Route::get('/deleteNews/{news}', 'AdminController@deleteNews')->name('deleteNews');
+        Route::match(['get', 'post'], '/updateCategory', 'AdminController@updateCategory')->name('updateCategory');
+        Route::get('/deleteCategory/{category}', 'AdminController@deleteCategory')->name('deleteCategory');
+        Route::match(['get', 'post'], '/updateCategoryById/{category}', 'AdminController@updateCategoryById')->name('updateCategoryById');
+        Route::get('/deleteFeedback', 'AdminController@deleteFeedback')->name('deleteFeedback');
+        Route::match(['get', 'delete'], '/deleteFeedbackById/{feedback}', 'AdminController@deleteFeedbackById')->name('deleteFeedbackById');
+        Route::get('/deleteRequest', 'AdminController@deleteRequest')->name('deleteRequest');
+        Route::match(['get', 'delete'], '/deleteRequestById/{appRequest}', 'AdminController@deleteRequestById')->name('deleteRequestById');
+    }
+);
 
 Route::match(['get', 'post'], '/feedback', 'FeedBackController@addFeedback')->name('addFeedback');
 Route::match(['get', 'post'], '/request', 'RequestController@addRequest')->name('addRequest');
@@ -28,7 +50,6 @@ Route::group(
         'as' => 'categories.'
     ],
     function () {
-        Route::get('/', 'CategoriesController@getNewsCategories')->name('getNewsCategories');
         Route::get('/{id}', 'NewsController@getNewsByCategoryId')->name('getNewsByCategoryId');
     }
 );
@@ -39,8 +60,7 @@ Route::group(
         'as' => 'news.'
     ],
     function () {
-        Route::get('/add', 'NewsController@openAddingNewsPage')->name('addingNewsPage');
-        Route::get('/{id}', 'NewsController@getNewsById')->name('getNewsById');
+        Route::get('/{news}', 'NewsController@getNewsById')->name('getNewsById');
     }
 );
 
@@ -58,4 +78,3 @@ Route::group(
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
-

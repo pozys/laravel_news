@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Request as AppRequest;
 use Illuminate\Http\Request;
 
 class RequestController extends Controller
@@ -9,13 +10,9 @@ class RequestController extends Controller
     public function addRequest(Request $request)
     {
         if($request->isMethod('post')){
-            $name = $request->input('user_name');
-            $phone = $request->input('phone');
-            $mail = $request->input('mail');
-            $request_text = $request->input('request_text');
-            $delimiter = '------------------------------';
-            $text = "Имя: $name \nТелефон: $phone \nЭлектронная почта: $mail  \nТекст запроса: $request_text \n $delimiter\n";
-            file_put_contents(storage_path('app/public/requests.txt'), $text, FILE_APPEND);
+            $newRequest = new AppRequest();
+            $newRequest->fill($request->all());
+            $newRequest->save();
             $request->flash();
             return redirect(route('addRequest'));
         }

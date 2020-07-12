@@ -1,7 +1,7 @@
 @section('header')
 
 <div class="col-4 text-center">
-    <a class="blog-header-logo text-dark" href="/">Вести</a>
+    <a class="blog-header-logo text-dark" href="{{route('index')}}">Вести</a>
 </div>
 <div class="col-4 d-flex justify-content-end align-items-center">
     <a class="text-muted" href="#" aria-label="Search">
@@ -11,6 +11,6 @@
             <path d="M21 21l-5.2-5.2" />
         </svg>
     </a>
-    <a class="btn btn-sm btn-outline-secondary" href="#">Войти</a>
+    <a class="btn btn-sm btn-outline-secondary" href="{{ route('admin.index') }}">Войти</a>
 </div>
 @endsection

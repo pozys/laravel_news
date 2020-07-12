@@ -2,40 +2,31 @@
 
 namespace App\Http\Controllers;
 
+use App\Category;
+use App\News;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class NewsController extends Controller
 {
     public function getNewsByCategoryId(int $id)
     {
-        $news = $this->NewsByCategoryId($id);
-        
+        $news = Category::find($id)->news()->orderBy('created_at', 'desc')->paginate($this->pagination_number_of_items);
+
         if (!$news) {
-            return 'Указан некорректный id категории.';
+            return abort(404);
         }
-        $categories = $this->NewsCategories();
-        return view('news.news_category', ['news'=>$news, 'categories'=>$categories]);
+
+        return view('news.news_category', [
+            'news' => $news,
+            'categories' => $this->NewsCategories()
+        ]);
     }
 
-    public function getNewsById(int $id)
+    public function getNewsById(News $news)
     {
-        $news = DB::table('news')->find($id);
-        
-        if (!$news) {
-            return 'Указан некорректный id новости.';
-        }
-        $categories = $this->NewsCategories();
-
-        return view('news.news_item', ['news'=>$news, 'categories'=>$categories]);
-    }
-
-    public function openAddingNewsPage()
-    {
-        $html = '<input type="text" name="title" placeholder="Заголовок новости"><br><br>
-        <textarea name="fullText" placeholder="Текст новости"></textarea><br><br>
-        <input type="" rows="60" name="shortDescription" placeholder="Краткое описание новости">';
-
-        return $html;
-    }
+        return view('news.news_item', [
+            'news' => $news,
+            'categories' => $this->NewsCategories()
+        ]);
+    }    
 }
