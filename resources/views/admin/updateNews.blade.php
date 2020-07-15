@@ -3,6 +3,7 @@
 @extends('layouts.header')
 
 @section('content')
+
 <div class="row mb-2">
     @foreach ($news as $item)
     <div class="col-md-6">
@@ -10,8 +11,8 @@
             <div class="col p-4 d-flex flex-column position-static">
                 <h3 class="mb-0">{{ $item->title }}</h3>
                 <p class="mb-auto">{{ $item->brief }}...</p>
-                <a href=" {{ route('admin.updateNewsById', $item->id) }} ">Изменить</a>
-                <a href=" {{ route('admin.deleteNews', $item->id) }} ">Удалить</a>
+                <a href=" {{ route('news.edit', $item->id) }} ">Изменить</a>
+                <a href=" {{ route('news.destroy', $item->id) }} ">Удалить</a>
             </div>
         </div>
     </div>

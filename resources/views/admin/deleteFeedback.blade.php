@@ -10,7 +10,7 @@
             <div class="col p-4 d-flex flex-column position-static">
                 <h3 class="mb-0">{{ $item->user_name }}</h3>
                 <p class="mb-auto">{{ $item->added_on }}...</p>
-                <a href=" {{ route('admin.deleteFeedbackById', $item->id) }} ">Просмотреть</a>
+                <a href=" {{ route('feedback.show', $item->id) }} ">Просмотреть</a>
             </div>
         </div>
     </div>

@@ -7,7 +7,7 @@
 @endsection
 
 @section('content')
-<form action="{{ route('admin.deleteFeedbackById', $feedback->id) }}" method="POST">
+<form action="{{ route('feedback.destroy', $feedback->id) }}" method="POST">
     {{ method_field('DELETE') }}
     <div class="form-group">
         @csrf

@@ -1,11 +1,12 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Request extends Model
+class InfoRequest extends Model
 {
+    protected $table = 'requests';
     public $timestamps = false;
     protected $fillable = [
         'user_name',

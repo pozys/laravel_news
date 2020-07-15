@@ -3,11 +3,11 @@
 @extends('layouts.header')
 
 @section('title')
-Удаление обратной связи
+Удаление запроса на получение информации
 @endsection
 
 @section('content')
-<form action="{{ route('admin.deleteRequestById', $request->id) }}" method="POST">
+<form action="{{ route('info_requests.destroy', $request->id) }}" method="POST">
     {{ method_field('DELETE') }}
     <div class="form-group">
         @csrf

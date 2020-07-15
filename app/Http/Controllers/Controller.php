@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Category;
-use App\Feedback;
-use App\News;
-use App\Request as RequestApp;
-use App\Source;
+
+use App\Models\Feedback;
+use App\Models\Category;
+use App\Models\News;
+use App\Models\Request as RequestApp;
+use App\Models\Source;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;

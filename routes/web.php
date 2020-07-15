@@ -1,5 +1,9 @@
 <?php
 
+use \Admin\CategoryController;
+use \Admin\NewsController;
+use \Admin\FeedbackController;
+use \Admin\RequestsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,28 +25,17 @@ Route::get('/about', function () {
 
 Route::group(
     [
-        'prefix' => 'admin',
-        'as' => 'admin.'
+        'prefix' => 'admin'
     ],
     function () {
-        Route::get('/index', 'AdminController@index')->name('index');
-        Route::match(['get', 'post'], '/addCategory', 'AdminController@addCategory')->name('addCategory');
-        Route::match(['get', 'post'], '/addNews', 'AdminController@addNews')->name('addNews');
-        Route::match(['get', 'post'], '/updateNews', 'AdminController@updateNews')->name('updateNews');
-        Route::match(['get', 'post'], '/updateNews/{news}', 'AdminController@updateNewsById')->name('updateNewsById');
-        Route::get('/deleteNews/{news}', 'AdminController@deleteNews')->name('deleteNews');
-        Route::match(['get', 'post'], '/updateCategory', 'AdminController@updateCategory')->name('updateCategory');
-        Route::get('/deleteCategory/{category}', 'AdminController@deleteCategory')->name('deleteCategory');
-        Route::match(['get', 'post'], '/updateCategoryById/{category}', 'AdminController@updateCategoryById')->name('updateCategoryById');
-        Route::get('/deleteFeedback', 'AdminController@deleteFeedback')->name('deleteFeedback');
-        Route::match(['get', 'delete'], '/deleteFeedbackById/{feedback}', 'AdminController@deleteFeedbackById')->name('deleteFeedbackById');
-        Route::get('/deleteRequest', 'AdminController@deleteRequest')->name('deleteRequest');
-        Route::match(['get', 'delete'], '/deleteRequestById/{appRequest}', 'AdminController@deleteRequestById')->name('deleteRequestById');
+        Route::get('/index', 'AdminController@index')->name('admin.index');
+        Route::resource('/categories', CategoryController::class);
+        Route::resource('/news', NewsController::class);
+        Route::resource('/feedback', FeedbackController::class);
+        Route::resource('/info_requests', RequestsController::class);
     }
 );
 
-Route::match(['get', 'post'], '/feedback', 'FeedBackController@addFeedback')->name('addFeedback');
-Route::match(['get', 'post'], '/request', 'RequestController@addRequest')->name('addRequest');
 
 Route::group(
     [
@@ -75,6 +68,6 @@ Route::group(
     }
 );
 
-Auth::routes();
+// Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
