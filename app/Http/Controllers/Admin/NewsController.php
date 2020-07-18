@@ -49,7 +49,7 @@ class NewsController extends Controller
         $news->save();
         $news->categories()->attach($request->input('category_id'));
 
-        return redirect(route('admin.index'))->cookie('success_text', 'Создание новости прошло успешно');
+        return redirect(route('admin.index'))->with('success_text', 'Создание новости прошло успешно');
     }
 
     /**
@@ -93,7 +93,7 @@ class NewsController extends Controller
         $news->save();
         $news->categories()->sync($request->input('category_id'));
 
-        return redirect(route('admin.index'))->cookie('success_text', 'Обновление новости прошло успешно');
+        return redirect(route('admin.index'))->with('success_text', 'Обновление новости прошло успешно');
     }
 
     /**
@@ -107,6 +107,6 @@ class NewsController extends Controller
         $news->categories()->detach();
         $news->delete();
 
-        return redirect(route('admin.index'));
+        return redirect(route('admin.index'))->with('success_text', 'Удаление новости прошло успешно');
     }
 }

@@ -27,7 +27,7 @@ class FeedbackController extends Controller
      */
     public function create()
     {
-        //
+        return view('feedback', ['categories' => $this->NewsCategories()]);
     }
 
     /**
@@ -38,7 +38,12 @@ class FeedbackController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $feedback = new Feedback();
+        $feedback->fill($request->all());
+        $feedback->save();
+        $request->flash();
+        return redirect(route('feedback.show', ['feedback' => $feedback]))
+            ->with('success_text', 'Ваш отзыв успешно зарегистрирован');
     }
 
     /**
@@ -87,6 +92,6 @@ class FeedbackController extends Controller
     {
         $feedback->delete();
 
-        return redirect(route('admin.index'));
+        return redirect(route('admin.index'))->with('success_text', 'Удаление данных прошло успешно');
     }
 }

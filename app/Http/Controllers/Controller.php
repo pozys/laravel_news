@@ -5,8 +5,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Feedback;
 use App\Models\Category;
+use App\Models\InfoRequest;
 use App\Models\News;
-use App\Models\Request as RequestApp;
 use App\Models\Source;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -58,6 +58,6 @@ class Controller extends BaseController
 
     public function requestsAll()
     {
-        return RequestApp::all();
+        return InfoRequest::all();
     }
 }

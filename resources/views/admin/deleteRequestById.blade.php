@@ -3,7 +3,11 @@
 @extends('layouts.header')
 
 @section('title')
+@if (Auth::user()->is_admin)
 Удаление запроса на получение информации
+@else
+Ваш запрос
+@endif
 @endsection
 
 @section('content')
@@ -17,7 +21,9 @@
         <input type="email" class="form-control" name="mail" value="{{ $request->mail }}" readonly> <br>
         <textarea name="body" rows="20" class="form-control" readonly>{{$request->request_text}}</textarea><br>
 
+        @if (Auth::user()->is_admin)
         <button type="submit" class="btn btn-primary">Удалить</button>
+        @endif
     </div>
 </form>
 @endsection

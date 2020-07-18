@@ -8,7 +8,7 @@
 @endsection
 
 @section('content')
-<form action="{{ route('addRequest') }}" method="POST">
+<form action="{{ route('info_requests.store') }}" method="POST">
     <div class="form-group">
         @csrf
         <label>Какую инфомацию Вы хотели бы получить?

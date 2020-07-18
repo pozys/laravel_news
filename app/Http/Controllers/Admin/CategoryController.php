@@ -46,7 +46,7 @@ class CategoryController extends Controller
         $category = new Category($request->all());
         $category->save();
 
-        return redirect(route('admin.index'));
+        return redirect(route('admin.index'))->with('success_text', 'Создание категории прошло успешно');
     }
 
     /**
@@ -86,7 +86,7 @@ class CategoryController extends Controller
         $category->fill($request->all());
         $category->save();
 
-        return redirect(route('admin.index'));
+        return redirect(route('admin.index'))->with('success_text', 'Обновление категории прошло успешно');
     }
 
     /**
@@ -100,6 +100,6 @@ class CategoryController extends Controller
         $category->news()->detach();
         $category->delete();
 
-        return redirect(route('admin.index'));
+        return redirect(route('admin.index'))->with('success_text', 'Удаление категории прошло успешно');
     }
 }

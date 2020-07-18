@@ -27,7 +27,7 @@ class RequestsController extends Controller
      */
     public function create()
     {
-        //
+        return view('info_request', ['categories' => $this->NewsCategories()]);
     }
 
     /**
@@ -38,7 +38,17 @@ class RequestsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $newRequest = new InfoRequest();
+        $newRequest->fill($request->all());
+        $newRequest->save();
+        $request->flash();
+        return redirect(route(
+            'info_requests.show',
+            [
+                'info_request' => $newRequest
+            ]
+        ))
+            ->with('success_text', 'Ваш запрос успешно зарегистрирован');
     }
 
     /**
@@ -50,7 +60,7 @@ class RequestsController extends Controller
     public function show(InfoRequest $infoRequest)
     {
         return view('admin.deleteRequestById', [
-            'request' => $infoRequest,
+            'request' => $infoRequest
         ]);
     }
 
@@ -87,6 +97,6 @@ class RequestsController extends Controller
     {
         $infoRequest->delete();
 
-        return redirect(route('admin.index'));
+        return redirect(route('admin.index'))->with('success_text', 'Удаление данных прошло успешно');
     }
 }

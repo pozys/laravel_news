@@ -4,6 +4,8 @@ use \Admin\CategoryController;
 use \Admin\NewsController;
 use \Admin\FeedbackController;
 use \Admin\RequestsController;
+use \Admin\UsersController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,23 +21,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', 'MainController@WelcomePage')->name('index');
 
-Route::get('/about', function () {
-    return 'Important information about our project';
-});
-
-Route::group(
-    [
-        'prefix' => 'admin'
-    ],
-    function () {
-        Route::get('/index', 'AdminController@index')->name('admin.index');
-        Route::resource('/categories', CategoryController::class);
-        Route::resource('/news', NewsController::class);
-        Route::resource('/feedback', FeedbackController::class);
-        Route::resource('/info_requests', RequestsController::class);
-    }
-);
-
+Route::resource('/admin/info_requests', RequestsController::class)->only(['create', 'store', 'show']);
+Route::resource('/admin/feedback', FeedbackController::class)->only(['create', 'store', 'show']);
 
 Route::group(
     [
@@ -57,6 +44,32 @@ Route::group(
     }
 );
 
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('/account', 'Account\IndexController@index')->name('account');
+    Route::get('/logout', function () {
+        Auth::logout();
+
+        return redirect(Route('index'));
+    });
+
+    Route::group(
+        [
+            'prefix' => 'admin',
+            'middleware' => 'admin'
+        ],
+        function () {
+            Route::get('/index', 'AdminController@index')->name('admin.index');
+            Route::resource('/users', UsersController::class);
+            Route::resource('/categories', CategoryController::class)->except(['destroy']);
+            Route::resource('/news', NewsController::class)->except(['destroy']);
+            Route::resource('/feedback', FeedbackController::class)->except(['create', 'store', 'show']);
+            Route::resource('/info_requests', RequestsController::class)->except(['create', 'store', 'show']);
+            Route::get('/news/{news}', 'Admin\NewsController@destroy')->name('news.destroy');
+            Route::get('/categories/{category}', 'Admin\CategoryController@destroy')->name('categories.destroy');
+        }
+    );
+});
+
 Route::group(
     [
         'prefix' => 'auth',
@@ -68,6 +81,6 @@ Route::group(
     }
 );
 
-// Auth::routes();
+Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');

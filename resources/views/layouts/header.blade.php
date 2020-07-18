@@ -11,6 +11,12 @@
             <path d="M21 21l-5.2-5.2" />
         </svg>
     </a>
-    <a class="btn btn-sm btn-outline-secondary" href="{{ route('admin.index') }}">Войти</a>
+    @if(Auth::check())
+    <a class="btn btn-sm btn-outline-secondary" href="{{ route('admin.index') }}">@if (Auth::user()->is_admin) Панель администратора @else Личный кабинет @endif</a>&nbsp;
+    <a class="btn btn-sm btn-outline-secondary" href="{{ route('logout') }}">Выйти</a>
+    @else
+    <a class="btn btn-sm btn-outline-secondary" href="{{ route('login') }}">Вход</a>&nbsp;
+    <a class="btn btn-sm btn-outline-secondary" href="{{ route('register') }}">Регистрация</a>
+    @endif
 </div>
 @endsection

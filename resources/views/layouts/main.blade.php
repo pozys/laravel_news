@@ -62,8 +62,6 @@
         ga('send', 'pageview');
     </script>
 
-
-
     <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
     <script>
         (adsbygoogle = window.adsbygoogle || []).push({
@@ -71,7 +69,6 @@
             enable_page_level_ads: true
         });
     </script>
-
 
     <div class="container">
         <header class="blog-header py-3">
@@ -88,6 +85,10 @@
     </div>
 
     <div class="container">
+        @if($errors->isEmpty() && session()->has('success_text'))
+        <x-success :success-text="session()->get('success_text')" />
+        @endif
+
         @yield('content')
     </div>
     @yield('footer')
