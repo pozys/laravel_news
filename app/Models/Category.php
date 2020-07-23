@@ -28,4 +28,9 @@ class Category extends Model
             'name' => 'required|max:70',
         ];
     }
+
+    public static function yandexMusicCategoryId(): int
+    {
+        return 6;
+    }
 }

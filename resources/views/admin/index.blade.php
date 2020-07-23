@@ -16,4 +16,5 @@
 <a href=" {{ route('feedback.index') }} ">Удалить данные обратной связи</a><br><hr>
 <a href=" {{ route('info_requests.index') }} ">Удалить запросы на получение информации</a><br><hr>
 <a href=" {{ route('users.index') }} ">Редактировать профили пользователей</a><br><hr>
+<a href=" {{ route('parseYandexMusic') }} ">Загрузить новости Яндекс (музыка)</a><br><hr>
 @endsection

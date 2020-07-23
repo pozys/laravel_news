@@ -3,7 +3,29 @@
 @extends('layouts.header')
 
 @section('content')
+<script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '652605468668317',
+      cookie     : true,
+      xfbml      : true,
+      version    : 'v7.0'
+    });
+      
+    FB.AppEvents.logPageView();   
+      
+  };
+
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "https://connect.facebook.net/en_US/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+</script>
 <div class="container">
+<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
@@ -64,6 +86,9 @@
                                         {{ __('Forgot Your Password?') }}
                                     </a>
                                 @endif
+                                <a class="btn btn-link" href="{{ route('auth.fbLogin') }}">
+                                        Авторизоваться через FB
+                                    </a>
                             </div>
                         </div>
                     </form>

@@ -68,6 +68,16 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('/categories/{category}', 'Admin\CategoryController@destroy')->name('categories.destroy');
         }
     );
+
+    Route::group(
+        [
+            'prefix' => 'news_loading',
+            'middleware' => 'admin'
+        ],
+        function () {
+            Route::get('/yandex_music', 'Admin\ParserController@parseYandexMusic')->name('parseYandexMusic');
+        }
+    );
 });
 
 Route::group(
@@ -78,6 +88,8 @@ Route::group(
     function () {
         Route::get('/', 'AuthorizationController@main')->name('auth_main');
         Route::get('/check', 'AuthorizationController@authorization')->name('authorization');
+        Route::get('/fb/response', 'LoginController@responseFB')->name('fbResponse');
+        Route::get('/fb', 'LoginController@loginFB')->name('fbLogin');
     }
 );
 
