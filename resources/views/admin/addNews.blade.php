@@ -35,7 +35,7 @@
             @endforeach
         </div>
         @endif
-        <textarea name="body" class="form-control" rows="20" placeholder="Текст новости" value="{{old('title')}}"></textarea><br>
+        <textarea name="body" class="form-control" rows="20" placeholder="Текст новости" id="inform" value="{{old('title')}}"></textarea><br>
 
         <h4 class="mb-0">Источник новости:</h4>
         @if($errors->has('source_id'))
@@ -67,4 +67,13 @@
         <button type="submit" class="btn btn-primary">Добавить</button>
     </div>
 </form>
+<script>
+    CKEDITOR.replace('inform', {
+        filebrowserImageBrowseUrl: '/laravel-filemanager?type=Images',
+        filebrowserImageUploadUrl: '/laravel-filemanager/upload?type=Images&_token=',
+        filebrowserBrowseUrl: '/laravel-filemanager?type=Files',
+        filebrowserUploadUrl: '/laravel-filemanager/upload?type=Files&_token=',
+        language: 'ru'
+    });
+</script>
 @endsection

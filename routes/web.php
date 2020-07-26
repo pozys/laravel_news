@@ -5,7 +5,9 @@ use \Admin\NewsController;
 use \Admin\FeedbackController;
 use \Admin\RequestsController;
 use \Admin\UsersController;
+use \Admin\ResourcesController;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -66,6 +68,8 @@ Route::group(['middleware' => 'auth'], function () {
             Route::resource('/info_requests', RequestsController::class)->except(['create', 'store', 'show']);
             Route::get('/news/{news}', 'Admin\NewsController@destroy')->name('news.destroy');
             Route::get('/categories/{category}', 'Admin\CategoryController@destroy')->name('categories.destroy');
+            Route::resource('/resources', ResourcesController::class)->except(['destroy']);
+            Route::get('/resources/{resource}', 'Admin\ResourcesController@destroy')->name('resources.destroy');
         }
     );
 
@@ -75,7 +79,7 @@ Route::group(['middleware' => 'auth'], function () {
             'middleware' => 'admin'
         ],
         function () {
-            Route::get('/yandex_music', 'Admin\ParserController@parseYandexMusic')->name('parseYandexMusic');
+            Route::get('/yandex', 'Admin\ParserController@parseYandex')->name('parseYandex');
         }
     );
 });
@@ -96,3 +100,7 @@ Route::group(
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {
+    \UniSharp\LaravelFilemanager\Lfm::routes();
+});
+

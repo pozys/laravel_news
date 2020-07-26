@@ -10,5 +10,5 @@
 @section('content')
 
 <h2 class="blog-post-title">{{ $news->title }}</h2>
-<p>{{ $news->body }}</p>
+<p>{!! $news->body !!}</p>
 @endsection

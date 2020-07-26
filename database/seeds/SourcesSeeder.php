@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Source;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -10,22 +11,23 @@ class SourcesSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(Source $source)
     {
-        DB::table('sources')->insert($this->getData());
+        DB::table('sources')->insert($this->getData($source));
     }
 
-    private function getData(): array
+    private function getData($source): array
     {
         $data = [];
 
-        $faker = Faker\Factory::create('ru_RU');
-        for ($i = 0; $i < 10; $i++) {
+        foreach ($source->getPredefinedSources() as $item) {
             $data[] = [
-                'source' => $faker->domainName(),
-                'created_at' => $faker->dateTimeThisYear($max = 'now')
+                'id' => $item['id'],
+                'source' => $item['domainName'],
+                'created_at' => date('Y-m-d')
             ];
         }
+
         return $data;
     }
 }

@@ -69,6 +69,7 @@
             enable_page_level_ads: true
         });
     </script>
+    <script src="{{asset('/js/ckeditor4/ckeditor/ckeditor.js')}}"></script>
 
     <div class="container">
         <header class="blog-header py-3">
@@ -93,5 +94,6 @@
     </div>
     @yield('footer')
 </body>
+
 
 </html>

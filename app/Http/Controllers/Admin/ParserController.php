@@ -3,24 +3,21 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Category;
-use App\Models\News;
+use App\Jobs\NewsParsing;
 use App\Models\Source;
-use App\Services\XmlParserService;
 use Illuminate\Http\Request;
 
 class ParserController extends Controller
 {
-    public function parseYandexMusic()
+    public function parseYandex()
     {
-        $XmlParserService = (new XmlParserService);
-        $news = $XmlParserService->parseYandexMusic();
+        $source_id = Source::yandexSourceId();
+        $resources = Source::find($source_id)->resources;
 
-        $source_id = Source::yandexMusicSourceId();
-        $category_id = Category::yandexMusicCategoryId();
+        foreach ($resources as $item) {
+            NewsParsing::dispatch($item, $source_id);
+        }
 
-        $count = $XmlParserService->createNewsAfterParsing($news, $source_id, $category_id);
-
-        return redirect(route('admin.index'))->with('success_text', 'Загрузка новостей завершена успешно. Добавлено новостей: ' . $count);
+        return redirect(route('admin.index'))->with('success_text', 'Загрузка новостей Яндекс завершена успешно.');
     }
 }

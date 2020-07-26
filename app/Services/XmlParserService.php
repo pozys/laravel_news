@@ -7,9 +7,9 @@ use Orchestra\Parser\Xml\Facade as XmlParser;
 
 class XmlParserService
 {
-    public function parseYandexMusic()
+    public function parseYandex($item, $source_id)
     {
-        $xml = XmlParser::load('https://news.yandex.ru/music.rss');
+        $xml = XmlParser::load($item->resource);
         $data = $xml->parse(
             [
                 'news' => ['uses' => 'channel.item[title,description,guid]']
@@ -21,12 +21,15 @@ class XmlParserService
             return $item += ['brief' => mb_substr($item['description'], 0, 200)];
         }, $data['news']);
 
-        return $data;
+        $this->createNewsAfterParsing($data, $source_id, $item->category_id);
     }
 
-    public function createNewsAfterParsing($news, $source_id, $category_id)
+    protected function createNewsAfterParsing($news, $source_id, $category_id)
     {
-        $count = 0;
+        if (!isset($news['news']) || !is_array($news['news'])) {
+            return abort(500, 'Не найден массив "news" в результатах парсинга');
+        }
+
         foreach ($news['news'] as $item) {
             $found = News::where([
                 ['source_id', $source_id],
@@ -42,9 +45,6 @@ class XmlParserService
             $newItem->ext_id = $item['guid'];
             $newItem->save();
             $newItem->categories()->attach($category_id);
-            $count++;
         }
-
-        return $count;
     }
 }

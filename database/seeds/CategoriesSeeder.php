@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Category;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -10,22 +11,23 @@ class CategoriesSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(Category $category)
     {
-        DB::table('categories')->insert($this->getData());
+        DB::table('categories')->insert($this->getData($category));
     }
 
-    private function getData(): array
+    private function getData($category): array
     {
         $data = [];
 
-        $faker = Faker\Factory::create('ru_RU');
-        for ($i = 0; $i < 6; $i++) {
+        foreach ($category->getPredefinedCategories() as $key => $item) {
             $data[] = [
-                'name' => $faker->sentence(rand(1, 2)),
-                'created_at' => $faker->dateTimeThisYear($max = 'now')
+                'name' => $key,
+                'id' => $item,
+                'created_at' => date('Y-m-d')
             ];
         }
+
         return $data;
     }
 }
